@@ -22,8 +22,9 @@ void BaseEngine::run() {
 }
 
 void BaseEngine::drawChar(char c, short x, short y, bool useOld) {
+    std::pair<short, short> pair = getTerminalSize();
     if (!useOld) {
-        setCursorPosition(std::max(0, x - 1), std::max(0, y - 1));
+        setCursorPosition(std::max(0, std::min((int)x, (int)pair.first)), std::max(0, std::min((int)y, (int)pair.second)));
     }
     else {
         for (int i = 0; i < y; i++) {
