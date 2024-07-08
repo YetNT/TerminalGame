@@ -6,9 +6,9 @@ int main() {
     TerminalGame game;
     game.clearConsole();
 
-    std::string co;
-    std::cout << "Holy fuck it works???";
-    std::cin >> co;
-    std::cout << co << std::endl;
+    game.drawChar('D', 0, 0);
+
+    std::string l;
+    std::cin >> l;
     return 0;
 }
