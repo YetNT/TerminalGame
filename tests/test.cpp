@@ -17,11 +17,11 @@ int main() {
     for (int r = 0;r <= 40; r++) {
         if (ld) {
             place.x++;
-            game.drawChar('O', place.x, place.y);
+            game.renderer.drawChar('O', place.x, place.y);
         }
         else {
             place.y++;
-            game.drawChar('O', place.x, place.y);
+            game.renderer.drawChar('O', place.x, place.y);
         }
         if (r % 10 == 0) ld = !ld;
         game.wait(100);

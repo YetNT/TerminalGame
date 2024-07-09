@@ -1,6 +1,9 @@
 #ifndef BASEENGINE_HPP
 #define BASEENGINE_HPP
 
+
+#include "TextRenderer.hpp"
+
 #include <utility>
 #include <chrono>
 #include <thread>
@@ -11,6 +14,8 @@
  */
 class BaseEngine {
 public:
+    BaseEngine();
+    TextRenderer renderer;
     void run();
     /**
     * Clears the console screen.
@@ -25,7 +30,7 @@ public:
     * @param ch The character to draw.
     * @param useOld If true, the old character draw function will be used.
     */
-    void drawChar(char c, short x, short y, bool useOld = false);
+    void oldDrawChar(char c, short x, short y);
 
     /**
     * Gets the current terminal size.
@@ -40,18 +45,6 @@ public:
      */
     void setTerminalSize(int cols, int rows);
 
-    /**
-    * @brief Sets the cursor position in the console.
-    *
-    * This function sets the cursor position to the specified coordinates (x, y) in the console.
-    * The top-left corner of the console is considered as the origin (0, 0).
-    *
-    * @param x The x-coordinate of the new cursor position.
-    * @param y The y-coordinate of the new cursor position.
-    *
-    * @return void
-    */
-    void setCursorPosition(int x, int y);
 
     /**
     * @brief Waits for the specified number of milliseconds.

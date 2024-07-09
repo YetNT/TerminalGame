@@ -1,10 +1,11 @@
 #include "../include/TerminalGame.hpp"
+#include "../include/TextRenderer.hpp"
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
 
-TerminalGame::TerminalGame() {
-
+TerminalGame::TerminalGame() : BaseEngine() {
+    renderer = TextRenderer();
 }
 
 // Below is the base engine definiton.
@@ -26,20 +27,15 @@ void BaseEngine::run() {
     // Game loop implementation here
 }
 
-void BaseEngine::drawChar(char c, short x, short y, bool useOld) {
+void BaseEngine::oldDrawChar(char c, short x, short y) {
     // Flush the buffer before setting the cursor position
     std::cout.flush();
 
-    if (!useOld) {
-        setCursorPosition(std::max(0, static_cast<int>(x)), std::max(0, static_cast<int>(y)));
+    for (int i = 0; i < y; i++) {
+        std::cout << std::endl;
     }
-    else {
-        for (int i = 0; i < y; i++) {
-            std::cout << std::endl;
-        }
-        for (int i = 0; i < x; i++) {
-            std::cout << ' ';
-        }
+    for (int i = 0; i < x; i++) {
+        std::cout << ' ';
     }
     std::cout << c;
     std::cout.flush(); // Ensure output is immediate
@@ -63,12 +59,6 @@ void BaseEngine::setTerminalSize(int cols, int rows) {
     SetConsoleWindowInfo(GetStdHandle(STD_OUTPUT_HANDLE), TRUE, &rect);
 }
 
-void BaseEngine::setCursorPosition(int x, int y) {
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    COORD position = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
-    SetConsoleCursorPosition(hConsole, position);
-}
-
 #else
 #include <sys/ioctl.h>
 #include <unistd.h>
@@ -85,15 +75,6 @@ void BaseEngine::setTerminalSize(int cols, int rows) {
     w.ws_col = cols;
     w.ws_row = rows;
     ioctl(STDOUT_FILENO, TIOCSWINSZ, &w);
-}
-
-void BaseEngine::setCursorPosition(int x, int y) {
-    if (!cur_term) {
-        int result;
-        setupterm(NULL, STDOUT_FILENO, &result);
-        if (result <= 0) return;
-    }
-    putp(tparm(cursor_address, y, x));
 }
 
 #endif
