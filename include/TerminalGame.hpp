@@ -2,6 +2,8 @@
 #define BASEENGINE_HPP
 
 #include <utility>
+#include <chrono>
+#include <thread>
 
 /**
  * @class BaseEngine
@@ -50,6 +52,18 @@ public:
     * @return void
     */
     void setCursorPosition(int x, int y);
+
+    /**
+    * @brief Waits for the specified number of milliseconds.
+    *
+    * This function suspends the execution of the current thread for the specified number of milliseconds.
+    * It uses the std::this_thread::sleep_for function from the <chrono> library to achieve this.
+    *
+    * @param milliseconds The number of milliseconds to wait.
+    *
+    * @return void
+    */
+    void wait(int milliseconds);
 
 };
 

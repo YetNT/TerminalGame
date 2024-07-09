@@ -17,6 +17,10 @@ void BaseEngine::clearConsole() {
 #endif
 }
 
+void BaseEngine::wait(int milliseconds) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+}
+
 void BaseEngine::run() {
     std::cout << "Game loop running..." << std::endl;
     // Game loop implementation here

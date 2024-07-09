@@ -6,12 +6,28 @@ int main() {
     TerminalGame game;
     game.clearConsole();
 
-    game.drawChar('D', 0, 0);
-    game.drawChar('A', 1, 0);
-    game.drawChar('B', 23, 0); // trying to go backwards
-    game.drawChar('O', 7, 23);
+    // std::pair<short, short> a = game.getTerminalSize();
 
-    std::string l;
-    std::cin >> l;
+    bool ld = false;
+    struct coords {
+        int x;
+        int y;
+    };
+    coords place = { 0, 0 };
+    for (int r = 0;r <= 40; r++) {
+        if (ld) {
+            place.x++;
+            game.drawChar('O', place.x, place.y);
+        }
+        else {
+            place.y++;
+            game.drawChar('O', place.x, place.y);
+        }
+        if (r % 10 == 0) ld = !ld;
+        game.wait(100);
+    }
+
+    std::string e;
+    std::cin >> e;
     return 0;
 }
