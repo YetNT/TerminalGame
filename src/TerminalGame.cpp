@@ -1,6 +1,7 @@
 #include "../include/TerminalGame.hpp"
 #include <iostream>
 #include <cstdlib>
+#include <algorithm>
 
 TerminalGame::TerminalGame() {
 
@@ -22,9 +23,11 @@ void BaseEngine::run() {
 }
 
 void BaseEngine::drawChar(char c, short x, short y, bool useOld) {
-    std::pair<short, short> pair = getTerminalSize();
+    // Flush the buffer before setting the cursor position
+    std::cout.flush();
+
     if (!useOld) {
-        setCursorPosition(std::max(0, std::min((int)x, (int)pair.first)), std::max(0, std::min((int)y, (int)pair.second)));
+        setCursorPosition(std::max(0, static_cast<int>(x)), std::max(0, static_cast<int>(y)));
     }
     else {
         for (int i = 0; i < y; i++) {
@@ -35,6 +38,7 @@ void BaseEngine::drawChar(char c, short x, short y, bool useOld) {
         }
     }
     std::cout << c;
+    std::cout.flush(); // Ensure output is immediate
 }
 
 #if defined(_WIN32) || defined(_WIN64)

@@ -27,7 +27,7 @@ public:
 
     /**
     * Gets the current terminal size.
-    * @return A pair representing the number of rows and columns. <cols, rows>
+    * @return A pair representing the number of rows and columns. <rows, cols>
     */
     std::pair<short, short> getTerminalSize();
 
