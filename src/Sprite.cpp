@@ -2,24 +2,29 @@
 #include "../include/Sprite.hpp"
 #include <iostream>
 
-Sprite::Sprite(const std::vector<std::string>& arr) {
-    spriteArray = arr;
+Sprite::Sprite(const std::vector<std::string>& arr, const std::vector<std::vector<TerminalColor>>& colArray)
+    : strArray(arr), colArray(colArray), width(arr.empty() ? 0 : arr[0].size()), height(arr.size()) {
 
-    width = arr.size();
-
-    int height = 0;
-
-    // Iterate through the vector
-    for (const std::string& str : arr) {
-        // Calculate the length of the current string
-        int length = str.length();
-
-        // Update maxLength if the current string length is greater
-        if (length > height) {
-            height = length;
+    // If colArray is empty, initialize it with default colors (e.g., TerminalColor::Reset)
+    if (this->colArray.empty()) {
+        this->colArray.resize(height, std::vector<TerminalColor>(width, TerminalColor::RESET));
+    }
+    else {
+        // Ensure colArray has the same dimensions as strArray
+        if (static_cast<int>(this->colArray.size()) != height || (height > 0 && static_cast<int>(this->colArray[0].size()) != width)) {
+            throw std::invalid_argument("Color array dimensions must match string array dimensions.");
         }
     }
 
-    midPoint.x = width / 2;
-    midPoint.y = height / 2;
+    // Calculate the midpoint of the sprite
+    midPoint.x = 0;
+    midPoint.y = 0;
+
+    pos.x = 0;
+    pos.y = 0;
+}
+
+void Sprite::move(int px, int py) {
+    pos.x += px;
+    pos.y += py;
 }

@@ -14,7 +14,7 @@
  */
 class BaseEngine {
 public:
-    BaseEngine();
+    BaseEngine() = default; // Default constructor;
     TextRenderer renderer;
     void run();
     /**

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "TerminalColor.hpp"
 
 /**
  * @class TerminalGame
@@ -10,14 +11,23 @@
  */
 class Sprite {
 public:
-    std::vector<std::string> spriteArray; // The sprite's 2D array representation.
+
+    std::vector<std::string> strArray; // The sprite's 2D array representation.
+    std::vector<std::vector<TerminalColor>> colArray; // The sprite's 2D array representation
     int width, height; // Dimensions of the sprite.
 
-    struct midPoint {
+    struct Point {
         int x, y; // Coordinates of the sprite's midpoint.
-    } midPoint;
+    };
 
-    Sprite(const std::vector<std::string>& arr);
+    Point midPoint;
+    Point pos;
+
+    Sprite(const std::vector<std::string>& arr,
+        const std::vector<std::vector<TerminalColor>>& colArray = {}
+    );
+
+    void move(int px, int py);
 };
 
 #endif // SPRITE_HPP

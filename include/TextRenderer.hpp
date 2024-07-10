@@ -2,30 +2,35 @@
 #define TEXTRENDERER_HPP
 
 #include "Sprite.hpp"
-
+#include "TerminalColor.hpp"
+#include <vector>
 
 /**
  * @class TextRenderer
  * Renders Text to the terminal.
  */
 class TextRenderer {
+protected:
+    /**
+    * @brief Draws a sprite to the terminal.
+    *
+    * This function takes a sprite object as input and draws it to the terminal at its current position.
+    * The sprite's appearance and color are determined by the properties of the provided Sprite object.
+    *
+    * @param sprite A reference to the Sprite object to be drawn. The sprite's position, appearance,
+    *                and color are determined by the properties of this object.
+    *
+    * @return void
+    */
+    void drawSprite(const Sprite& sprite);
+
+    void drawSprites();
+
 public:
-    std::vector<Sprite>& sprites;
+    // No need for a constructor that initializes sprites; it's now an internal member
+    std::vector<Sprite> sprites; // Rendered from [0] to [>0], so element 1 will appear over element 0 if they overlap.
 
-    enum class TerminalColor {
-        Reset = 0,      // Reset all attributes
-        Black = 30,     // Black text
-        Red,            // Red text
-        Green,          // Green text
-        Yellow,         // Yellow text
-        Blue,           // Blue text
-        Magenta,        // Magenta text
-        Cyan,           // Cyan text
-        White           // White text
-    };
-
-    void drawChar(char c, short x, short y);
-
+    void drawChar(char c, short x, short y, TerminalColor col = TerminalColor::RESET);
 
     /**
     * @brief Sets the cursor position in the console.
@@ -64,6 +69,18 @@ public:
     * @return void
     */
     void addSprites(const std::vector<Sprite>& spritesToAdd);
+
+    /**
+    * @brief Renders the current state of all sprites to the terminal.
+    *
+    * This function iterates through the internal list of sprites, retrieves their position, appearance,
+    * and color information, and then draws them to the terminal using the appropriate character and color
+    * codes. The rendering process is optimized to minimize the number of console output operations,
+    * ensuring smooth and efficient rendering.
+    *
+    * @return void
+    */
+    void renderFrame();
 };
 
 #endif // TEXTRENDERER_HPP
