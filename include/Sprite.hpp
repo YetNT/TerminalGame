@@ -11,19 +11,19 @@
  */
 class Sprite {
 public:
+    struct Point {
+        int x, y; // Coordinates of the sprite's midpoint.
+    };
+
+    Point pos;
+    Point midPoint;
 
     std::vector<std::string> strArray; // The sprite's 2D array representation.
     std::vector<std::vector<TerminalColor>> colArray; // The sprite's 2D array representation
     int width, height; // Dimensions of the sprite.
 
-    struct Point {
-        int x, y; // Coordinates of the sprite's midpoint.
-    };
-
-    Point midPoint;
-    Point pos;
-
     Sprite(const std::vector<std::string>& arr,
+        Point position,
         const std::vector<std::vector<TerminalColor>>& colArray = {}
     );
 

@@ -2,7 +2,7 @@
 #include "../include/Sprite.hpp"
 #include <iostream>
 
-Sprite::Sprite(const std::vector<std::string>& arr, const std::vector<std::vector<TerminalColor>>& colArray)
+Sprite::Sprite(const std::vector<std::string>& arr, Point position, const std::vector<std::vector<TerminalColor>>& colArray)
     : strArray(arr), colArray(colArray), width(arr.empty() ? 0 : arr[0].size()), height(arr.size()) {
 
     // If colArray is empty, initialize it with default colors (e.g., TerminalColor::Reset)
@@ -20,8 +20,8 @@ Sprite::Sprite(const std::vector<std::string>& arr, const std::vector<std::vecto
     midPoint.x = 0;
     midPoint.y = 0;
 
-    pos.x = 0;
-    pos.y = 0;
+    pos.x = position.x;
+    pos.y = position.y;
 }
 
 void Sprite::move(int px, int py) {

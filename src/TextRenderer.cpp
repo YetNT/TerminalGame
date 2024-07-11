@@ -13,12 +13,13 @@ void TextRenderer::drawChar(char c, short x, short y, TerminalColor col) {
     std::cout.flush(); // Ensure output is immediate
 }
 
-void TextRenderer::addSprite(const Sprite& sprite) {
-    sprites.push_back(sprite);
+void TextRenderer::addSprite(Sprite* pointerToSprite) {
+
+    spritePointers.push_back(pointerToSprite);
 }
 
-void TextRenderer::addSprites(const std::vector<Sprite>& spritesToAdd) {
-    sprites.insert(sprites.end(), spritesToAdd.begin(), spritesToAdd.end());
+void TextRenderer::addSprites(const std::vector<Sprite*> pointerToSpritesToAdd) {
+    spritePointers.insert(spritePointers.end(), pointerToSpritesToAdd.begin(), pointerToSpritesToAdd.end());
 }
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -32,8 +33,8 @@ void TextRenderer::setCursorPosition(int x, int y) {
 }
 
 void TextRenderer::drawSprite(const Sprite& sprite) {
-    int startX = sprite.midPoint.x;
-    int y = sprite.midPoint.y;
+    int startX = sprite.pos.x;
+    int y = sprite.pos.y;
 
     for (int outerVectorIndex = 0; outerVectorIndex < (int)sprite.strArray.size(); ++outerVectorIndex) {
 
@@ -52,8 +53,10 @@ void TextRenderer::drawSprite(const Sprite& sprite) {
 }
 
 void TextRenderer::drawSprites() {
-    for (const auto& sprite : sprites) {
-        drawSprite(sprite);
+    for (const auto& spritePointer : spritePointers) {
+        if (spritePointer) {
+            drawSprite(*spritePointer);
+        }
     }
 }
 

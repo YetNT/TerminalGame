@@ -28,7 +28,7 @@ protected:
 
 public:
     // No need for a constructor that initializes sprites; it's now an internal member
-    std::vector<Sprite> sprites; // Rendered from [0] to [>0], so element 1 will appear over element 0 if they overlap.
+    std::vector<Sprite*> spritePointers; // Rendered from [0] to [>0], so element 1 will appear over element 0 if they overlap.
 
     void drawChar(char c, short x, short y, TerminalColor col = TerminalColor::RESET);
 
@@ -56,7 +56,7 @@ public:
     *
     * @return void
     */
-    void addSprite(const Sprite& sprite);
+    void addSprite(Sprite* pointerToSprite);
 
     /**
     * @brief Adds a collection of sprites to the renderer.
@@ -68,7 +68,7 @@ public:
     *
     * @return void
     */
-    void addSprites(const std::vector<Sprite>& spritesToAdd);
+    void addSprites(std::vector<Sprite*> pointerToSpritesToAdd);
 
     /**
     * @brief Renders the current state of all sprites to the terminal.
