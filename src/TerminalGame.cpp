@@ -44,7 +44,7 @@ void BaseEngine::oldDrawChar(char c, short x, short y) {
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 
-std::pair<short, short> BaseEngine::getTerminalSize() {
+BaseEngine::TerminalSize BaseEngine::getTerminalSize() {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     int cols = csbi.srWindow.Right - csbi.srWindow.Left + 1;
@@ -64,7 +64,7 @@ void BaseEngine::setTerminalSize(int cols, int rows) {
 #include <unistd.h>
 #include <term.h>
 
-std::pair<short, short> BaseEngine::getTerminalSize() {
+BaseEngine::TerminalSize BaseEngine::getTerminalSize() {
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     return { w.ws_row, w.ws_col };

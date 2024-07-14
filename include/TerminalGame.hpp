@@ -14,6 +14,11 @@
  */
 class BaseEngine {
 public:
+    struct TerminalSize {
+        int x;
+        int y;
+    };
+
     BaseEngine() = default; // Default constructor;
     TextRenderer renderer;
     void run();
@@ -36,7 +41,7 @@ public:
     * Gets the current terminal size.
     * @return A pair representing the number of rows and columns. <rows, cols>
     */
-    std::pair<short, short> getTerminalSize();
+    TerminalSize getTerminalSize();
 
     /**
      * Sets the terminal size.
