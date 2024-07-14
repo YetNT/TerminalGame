@@ -13,15 +13,6 @@ void TextRenderer::drawChar(char c, short x, short y, TerminalColor col) {
     std::cout.flush(); // Ensure output is immediate
 }
 
-void TextRenderer::addSprite(Sprite* pointerToSprite) {
-
-    spritePointers.push_back(pointerToSprite);
-}
-
-void TextRenderer::addSprites(const std::vector<Sprite*> pointerToSpritesToAdd) {
-    spritePointers.insert(spritePointers.end(), pointerToSpritesToAdd.begin(), pointerToSpritesToAdd.end());
-}
-
 #if defined(_WIN32) || defined(_WIN64)
 #include <windows.h>
 
@@ -30,38 +21,6 @@ void TextRenderer::setCursorPosition(int x, int y) {
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD position = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
     SetConsoleCursorPosition(hConsole, position);
-}
-
-void TextRenderer::drawSprite(const Sprite& sprite) {
-    int startX = sprite.pos.x;
-    int y = sprite.pos.y;
-
-    for (int outerVectorIndex = 0; outerVectorIndex < (int)sprite.strArray.size(); ++outerVectorIndex) {
-
-        std::string str = sprite.strArray[outerVectorIndex];
-        std::vector<TerminalColor> colVector = sprite.colArray[outerVectorIndex];
-        int x = startX; // Reset x position for each row
-
-        for (int innerVectorIndex = 0; innerVectorIndex < (int)str.size(); ++innerVectorIndex) {
-            char c = str[innerVectorIndex];
-            TerminalColor col = (innerVectorIndex >= (int)colVector.size()) ? TerminalColor::RESET : colVector[innerVectorIndex];
-            drawChar(c, x, y, col);
-            ++x;
-        }
-        ++y;
-    }
-}
-
-void TextRenderer::drawSprites() {
-    for (const auto& spritePointer : spritePointers) {
-        if (spritePointer) {
-            drawSprite(*spritePointer);
-        }
-    }
-}
-
-void TextRenderer::renderFrame() {
-    drawSprites();
 }
 
 #else

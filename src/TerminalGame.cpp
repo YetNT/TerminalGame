@@ -10,6 +10,47 @@ TerminalGame::TerminalGame() : BaseEngine() {
 
 // Below is the base engine definiton.
 
+void BaseEngine::addSprite(Sprite* pointerToSprite) {
+
+    renderer.spritePointers.push_back(pointerToSprite);
+}
+
+void BaseEngine::addSprites(const std::vector<Sprite*> pointerToSpritesToAdd) {
+    renderer.spritePointers.insert(renderer.spritePointers.end(), pointerToSpritesToAdd.begin(), pointerToSpritesToAdd.end());
+}
+
+void BaseEngine::drawSprite(const Sprite& sprite) {
+    int startX = sprite.pos.x;
+    int y = sprite.pos.y;
+
+    for (int outerVectorIndex = 0; outerVectorIndex < (int)sprite.strArray.size(); ++outerVectorIndex) {
+
+        std::string str = sprite.strArray[outerVectorIndex];
+        std::vector<TerminalColor> colVector = sprite.colArray[outerVectorIndex];
+        int x = startX; // Reset x position for each row
+
+        for (int innerVectorIndex = 0; innerVectorIndex < (int)str.size(); ++innerVectorIndex) {
+            char c = str[innerVectorIndex];
+            TerminalColor col = (innerVectorIndex >= (int)colVector.size()) ? TerminalColor::RESET : colVector[innerVectorIndex];
+            renderer.drawChar(c, x, y, col);
+            ++x;
+        }
+        ++y;
+    }
+}
+
+void BaseEngine::drawSprites() {
+    for (const auto& spritePointer : renderer.spritePointers) {
+        if (spritePointer) {
+            drawSprite(*spritePointer);
+        }
+    }
+}
+
+void BaseEngine::renderFrame() {
+    drawSprites();
+}
+
 void BaseEngine::clearConsole() {
 #ifdef _WIN32
     std::system("cls");
